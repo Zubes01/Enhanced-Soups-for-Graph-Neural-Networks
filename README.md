@@ -27,14 +27,16 @@ However this environment contains many unused packages, and the DGL version has 
 
 ## Usage
 
-Train ingredients using ingredient_trainer.py by passing in the graph name, model information, and training hyperparameters.
-For instance, to train 10 GCN ingredients on the Products dataset and save them in a "gcn_prods" folder:
+### 1. Train Ingredients
+Train ingredients using `ingredient_trainer.py` by passing in the graph name, model information, and training hyperparameters.
+For instance, to train 10 GCN ingredients on the Products dataset and save them in a `gcn_prods` folder:
 
 ```bash
 python ingredient_trainer.py --graph_name ogbn-products --model_to_use gcn --hidden_layer_size 512 --dropout 0.0 --num_layers 3 --num_to_train 10 --save_directory ./gcn_prods --batch_size 4000 --epochs 50 --learn_rate 0.001 --sampled_neighbors 3
 ```
 
-Soup ingredients using souping algorithms in soups.py, which take in a list of ingredient paths, an example model (used to determine the model settings to load the ingredients), and the relevant hyperparameters for the algorithm. For example, to run GIS with 20 granularity on our previously trained models in the "gcn_prods" folder and evaluate the result on the test set, we can do the following:
+### 2. Soup Ingredients
+Soup ingredients using souping algorithms in `soups.py`, which take in a list of ingredient paths, an example model (used to determine the model settings to load the ingredients), and the relevant hyperparameters for the algorithm. For example, to run GIS with 20 granularity on our previously trained models in the `gcn_prods` folder and evaluate the result on the test set, we can do the following:
 
 ```python
 >>> import tools
@@ -63,7 +65,7 @@ Soup ingredients using souping algorithms in soups.py, which take in a list of i
 ```
 
 
-PLS requires a preprocessing step, where the graph is partitioned using a SOTA partitioning algorithm. This can be done using DGL's distributed library. We also recommend preloading the partitions (which moves them from the disk to memory) and passing them into PLS, rather than letting PLS load the partitions from the disk. The preloaded parts can be kept on the GPU (trading CPU memory for speed) or on the CPU (where they are moved to the GPU during training when they are chosen). Continuing with our example of GCN on Products, we can do the following:
+PLS requires a preprocessing step, where the graph is partitioned using a SOTA partitioning algorithm. This can be done using DGL's distributed API. We also recommend preloading the partitions (which moves them from the disk to memory) and passing them into PLS, rather than letting PLS load the partitions from the disk. The preloaded parts can be kept on the GPU (trading CPU memory for speed) or on the CPU (where they are moved to the GPU during training when they are chosen). Continuing with our example of GCN on Products, we can do the following:
 
 ```python
 >>> import dgl
